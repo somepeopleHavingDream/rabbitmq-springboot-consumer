@@ -1,0 +1,12 @@
+spring:
+  rabbitmq:
+    addresses: 192.168.3.3:5672
+    username: admin
+    password: 123456
+    virtual-host: /
+    connection-timeout: 15000
+    listener:
+      simple:
+        acknowledge-mode: manual
+        concurrency: 5
+        max-concurrency: 10
