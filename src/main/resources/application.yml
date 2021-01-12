@@ -10,3 +10,14 @@ spring:
         acknowledge-mode: manual
         concurrency: 5
         max-concurrency: 10
+      # 自定义配置
+      order:
+        queue:
+          name: queue-2
+          durable: true
+        exchange:
+          name: exchange-2
+          durable: true
+          type: topic
+          ignoreDeclarationExceptions: true
+        key: springboot.rabbitmq.*

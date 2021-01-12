@@ -6,9 +6,13 @@ import org.springframework.amqp.rabbit.annotation.*;
 import org.springframework.amqp.support.AmqpHeaders;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
+import org.springframework.messaging.handler.annotation.Headers;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
+import org.yangxin.rabbitmq.rabbitmqspringbootconsumer.rabbitmqspringbootconsumer.entity.Order;
 
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * @author yangxin
@@ -38,5 +42,28 @@ public class RabbitReceiver {
         } else {
             log.error("ack错误，deliverTag: [{}]", deliveryTag);
         }
+    }
+
+    /**
+     * 此案例是失败的！
+     * 因为要必须保证这个Order的类全限定名和生产者的类全限定名相同，否则会序列化失败。
+     * 建议生产者将数据以json格式入队，再由消费者将json数据反序列化。
+     */
+    @Deprecated
+    @RabbitListener(bindings = @QueueBinding(
+            value = @Queue(value = "${spring.rabbitmq.listener.order.queue.name}",
+                    durable = "${spring.rabbitmq.listener.order.queue.durable}"),
+            exchange = @Exchange(value = "${spring.rabbitmq.listener.order.exchange.name}",
+                    type = "${spring.rabbitmq.listener.order.exchange.type}",
+                    ignoreDeclarationExceptions = "${spring.rabbitmq.listener.order.exchange.ignoreDeclarationExceptions}"),
+            key = "${spring.rabbitmq.listener.order.key}"
+    ))
+    @RabbitHandler
+    public void onOrderMessage(@Payload Order order, Channel channel, @Headers Map<String, Object> headerMap) throws IOException {
+        log.info("消费端order: [{}]", order.getId());
+
+        Long deliveryTag = (Long) headerMap.get(AmqpHeaders.DELIVERY_TAG);
+        // 手工ack
+        channel.basicAck(deliveryTag, false);
     }
 }
