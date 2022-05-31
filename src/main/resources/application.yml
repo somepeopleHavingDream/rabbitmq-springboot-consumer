@@ -7,6 +7,7 @@ spring:
     connection-timeout: 15000
     listener:
       simple:
+        # 开启手动ack，消息消息的时候，就必须发送ack确认，不然消息永远还在队列中
         acknowledge-mode: manual
         concurrency: 5
         max-concurrency: 10

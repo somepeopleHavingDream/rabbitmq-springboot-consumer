@@ -22,6 +22,12 @@ import java.util.Map;
 @Component
 public class RabbitReceiver {
 
+    /*
+        - 消费端可靠性投递
+            - ack机制改为手动（RabbitMQ的自动ack机制默认在消息发出后就立即将这条消息删除，而不管消费端是否接收到，是否处理完）
+            - SpringBoot提供的消息重试
+     */
+
     @RabbitListener(bindings = @QueueBinding(
             value = @Queue(value = "queue-01", durable = "true"),
             exchange = @Exchange(value = "exchange-1",
