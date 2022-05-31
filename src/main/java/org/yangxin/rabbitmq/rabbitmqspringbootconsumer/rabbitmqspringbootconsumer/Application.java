@@ -3,6 +3,7 @@ package org.yangxin.rabbitmq.rabbitmqspringbootconsumer.rabbitmqspringbootconsum
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+@SuppressWarnings("AlibabaClassMustHaveAuthor")
 @SpringBootApplication
 public class Application {
 

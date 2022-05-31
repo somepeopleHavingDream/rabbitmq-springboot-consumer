@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.*;
 import org.springframework.amqp.support.AmqpHeaders;
 import org.springframework.messaging.Message;
-import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
@@ -18,6 +17,7 @@ import java.util.Map;
  * @author yangxin
  * 1/12/21 1:54 PM
  */
+@SuppressWarnings("AlibabaRemoveCommentedCode")
 @Slf4j
 @Component
 public class RabbitReceiver {
